@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PrestaFácil — Contabilidad</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.44.0/tabler-icons.min.css">
+<link rel="stylesheet" href="/style/base.css">
+<link rel="stylesheet" href="/style/contabilidad.css">
+</head>
+<body data-page="contabilidad">
+  <div class="app-shell" id="appShell">
+    <div class="sidebar-overlay" onclick="toggleSidebar(false)"></div>
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="mark"><i class="ti ti-cash"></i></div>
+        <span>PrestaFácil</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" data-page="dashboard"><i class="ti ti-layout-dashboard"></i><span>Dashboard</span></a>
+        <a href="clientes.html" data-page="clientes"><i class="ti ti-users"></i><span>Clientes</span></a>
+        <a href="cobradores.html" data-page="cobradores"><i class="ti ti-route"></i><span>Cobradores</span></a>
+        <a href="reportes.html" data-page="reportes"><i class="ti ti-chart-bar"></i><span>Reportes</span></a>
+        <a href="contabilidad.html" data-page="contabilidad"><i class="ti ti-report-money"></i><span>Contabilidad</span></a>
+        <a href="configuracion.html" data-page="configuracion"><i class="ti ti-settings"></i><span>Configuración</span></a>
+      </nav>
+      <div class="sidebar-footer">
+        <button data-logout><i class="ti ti-logout"></i><span>Cerrar sesión</span></button>
+      </div>
+    </aside>
+    <main class="main">
+      <div class="main-header">
+        <div class="main-header-left">
+          <button class="hamburger-btn" id="hamburgerBtn" aria-expanded="false" aria-label="Abrir menú" onclick="toggleSidebar()">
+            <span></span><span></span><span></span>
+          </button>
+          <div>
+            <h1>Contabilidad</h1>
+            <p>Libro de cuentas: ganancias por intereses, gastos operativos y balance</p>
+          </div>
+        </div>
+        <div class="user-chip">
+          <span class="dot"></span>
+          <span data-user-chip>Cargando…</span>
+        </div>
+      </div>
+
+      <div class="filter-bar">
+        <div class="filter-field">
+          <label for="f-desde">Desde</label>
+          <input type="date" id="f-desde">
+        </div>
+        <div class="filter-field">
+          <label for="f-hasta">Hasta</label>
+          <input type="date" id="f-hasta">
+        </div>
+        <div class="filter-field">
+          <label for="f-tipo">Tipo</label>
+          <select id="f-tipo">
+            <option value="">Todos</option>
+            <option value="ingreso">Ingreso</option>
+            <option value="gasto">Gasto</option>
+          </select>
+        </div>
+        <button class="btn-secondary" id="btn-limpiar-filtros">Limpiar filtros</button>
+      </div>
+
+      <div class="card-grid" id="stat-cards">
+        <div class="stat-card"><p class="label">Ganancias por intereses (período)</p><p class="skeleton">Cargando…</p></div>
+        <div class="stat-card"><p class="label">Gastos operativos (período)</p><p class="skeleton">Cargando…</p></div>
+        <div class="stat-card"><p class="label">Balance neto</p><p class="skeleton">Cargando…</p></div>
+      </div>
+
+      <div class="toolbar">
+        <input class="search-input" type="text" id="search-input" placeholder="Buscar por descripción o categoría…">
+        <button class="btn-primary" id="btn-nuevo-movimiento" style="width:auto;padding:0 16px">
+          <i class="ti ti-plus" style="vertical-align:-2px;margin-right:4px"></i>Nuevo movimiento
+        </button>
+      </div>
+
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Tipo</th>
+              <th>Categoría</th>
+              <th>Descripción</th>
+              <th>Monto</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="movimientos-tbody">
+            <tr><td colspan="6" class="skeleton">Cargando movimientos…</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="section-title">Simulador de amortización</p>
+
+      <section class="amortizacion-panel">
+        <div class="amortizacion-banner">
+          <p>Esta calculadora permite establecer el valor que va a tener la cuota de un crédito, tomando el monto a tomar prestado, la tasa de interés y el plazo.</p>
+        </div>
+
+        <div class="amortizacion-body">
+          <div class="amortizacion-form">
+            <div class="am-field">
+              <label for="am-monto">Monto</label>
+              <input id="am-monto" type="number" min="0" step="0.01" value="10000">
+            </div>
+            <div class="am-field">
+              <label for="am-cuotas">Cuotas</label>
+              <input id="am-cuotas" type="number" min="1" step="1" value="5">
+            </div>
+            <div class="am-field">
+              <label for="am-interes">Interés anual</label>
+              <input id="am-interes" type="number" min="0" step="0.01" value="10">
+            </div>
+            <button class="btn-calcular" id="btn-calcular-amortizacion">Calcular</button>
+          </div>
+
+          <div class="amortizacion-notes">
+            <p><strong>Notas:</strong></p>
+            <ul>
+              <li>Los resultados de esta simulación son aproximados.</li>
+              <li>Se consideran meses de 30 días y años de 360 días.</li>
+              <li>No se contempló período de gracia y el primer vencimiento es a 30 días.</li>
+              <li>En caso de préstamos hipotecarios, la cuota mensual aumentaría producto del seguro de vida y de propiedad, no incluidos en el cálculo.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="amortizacion-resultado" id="amortizacion-resultado" style="display:none">
+          <div class="card-grid">
+            <div class="stat-card"><p class="label">Cuota mensual</p><p class="value" id="am-cuota-valor">-</p></div>
+            <div class="stat-card"><p class="label">Total a pagar</p><p class="value" id="am-total-valor">-</p></div>
+            <div class="stat-card"><p class="label">Total intereses</p><p class="value" id="am-intereses-valor">-</p></div>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>No.</th>
+                  <th>Fecha</th>
+                  <th>Cuota</th>
+                  <th>Interés</th>
+                  <th>Capital</th>
+                  <th>Saldo</th>
+                </tr>
+              </thead>
+              <tbody id="amortizacion-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal: nuevo / editar movimiento -->
+  <div class="modal-overlay" id="modal-movimiento">
+    <div class="modal-box">
+      <h2 id="modal-movimiento-titulo">Nuevo movimiento</h2>
+      <form id="form-movimiento">
+        <input type="hidden" id="mov-id" value="">
+
+        <label class="field-label" for="mov-tipo">Tipo</label>
+        <select class="field-input" style="margin-bottom:12px" id="mov-tipo" required>
+          <option value="ingreso">Ingreso</option>
+          <option value="gasto">Gasto</option>
+        </select>
+
+        <label class="field-label" for="mov-categoria">Categoría</label>
+        <select class="field-input" style="margin-bottom:12px" id="mov-categoria" required>
+          <option value="intereses">Intereses de préstamos</option>
+          <option value="mora">Recargos por mora</option>
+          <option value="otro-ingreso">Otro ingreso</option>
+          <option value="nomina">Nómina / comisiones de cobradores</option>
+          <option value="operativo">Gastos operativos</option>
+          <option value="otro-gasto">Otro gasto</option>
+        </select>
+
+        <label class="field-label" for="mov-descripcion">Descripción</label>
+        <input class="field-input" style="margin-bottom:12px" id="mov-descripcion" type="text" placeholder="Ej. Intereses cobrados semana 30" required>
+
+        <label class="field-label" for="mov-monto">Monto</label>
+        <input class="field-input" style="margin-bottom:12px" id="mov-monto" type="number" min="0" step="0.01" required>
+
+        <label class="field-label" for="mov-fecha">Fecha</label>
+        <input class="field-input" style="margin-bottom:4px" id="mov-fecha" type="date" required>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="btn-cancelar-movimiento">Cancelar</button>
+          <button type="submit" class="btn-primary">Guardar movimiento</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+<script>
+  function toggleSidebar(force) {
+    const shell = document.getElementById('appShell');
+    const btn = document.getElementById('hamburgerBtn');
+    const open = typeof force === 'boolean' ? force : !shell.classList.contains('sidebar-open');
+    shell.classList.toggle('sidebar-open', open);
+    btn.setAttribute('aria-expanded', open);
+  }
+</script>
+<script src="/script/mock-data.js"></script>
+<script src="/script/gm-api.js"></script>
+<script src="/script/script.js"></script>
+<script src="/script/contabilidad.js"></script>
+</body>
+</html>
