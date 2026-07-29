@@ -37,5 +37,14 @@ window.PF_MOCK = {
     { id: "pg-8", fecha: "2026-07-28", clienteId: "cl-3", clienteNombre: "Elena Cruz", cobradorId: "cb-1", cobradorNombre: "Carlos Peña", monto: 300, metodo: "transferencia" },
     { id: "pg-9", fecha: "2026-07-29", clienteId: "cl-1", clienteNombre: "Rosa Martínez", cobradorId: "cb-1", cobradorNombre: "Carlos Peña", monto: 500, metodo: "efectivo" },
     { id: "pg-10", fecha: "2026-07-29", clienteId: "cl-2", clienteNombre: "Julio Ramírez", cobradorId: "cb-1", cobradorNombre: "Carlos Peña", monto: 750, metodo: "efectivo" }
-  ]
+  ],
+
+  configuracion: {
+    nombreNegocio: "PrestaFácil",
+    telefono: "809-555-0100",
+    moneda: "DOP",
+    tasaInteresDefault: 20,
+    diasGracia: 2,
+    frecuenciaCuotaDefault: "semanal"
+  }
 };
