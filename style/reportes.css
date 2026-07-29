@@ -1,0 +1,97 @@
+/* PrestaFácil — Admin App — reportes.css
+   Estilos exclusivos de reportes.html. Requiere base.css cargado antes. */
+
+.filter-bar {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.filter-field label {
+  font-size: 12px;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.filter-field input,
+.filter-field select {
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  height: 36px;
+  padding: 0 10px;
+  font-size: 13px;
+  background: var(--surface);
+  color: var(--ink-soft);
+}
+
+.filter-bar .btn-secondary {
+  height: 36px;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+}
+
+.stat-card .label {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 0 0 6px;
+}
+
+.stat-card .value {
+  font-size: 22px;
+  font-weight: 500;
+  margin: 0;
+  color: var(--ink);
+}
+
+.table-wrap {
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+table.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th {
+  text-align: left;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  padding: 12px 14px;
+  border-bottom: 0.5px solid var(--surface-muted);
+}
+
+.data-table td {
+  font-size: 13px;
+  color: var(--ink-soft);
+  padding: 12px 14px;
+  border-bottom: 0.5px solid var(--bg);
+}
+
+.data-table tbody tr:last-child td { border-bottom: none; }
+
+.metodo-tag {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: capitalize;
+}
+
+@media (max-width: 720px) {
+  .card-grid { grid-template-columns: 1fr; }
+}
