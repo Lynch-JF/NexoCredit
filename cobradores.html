@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PrestaFácil — Cobradores</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.44.0/iconfont/tabler-icons.min.css">
+<link rel="stylesheet" href="base.css">
+<link rel="stylesheet" href="cobradores.css">
+</head>
+<body data-page="cobradores">
+
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="mark"><i class="ti ti-cash"></i></div>
+        <span>PrestaFácil</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" data-page="dashboard"><i class="ti ti-layout-dashboard"></i><span>Dashboard</span></a>
+        <a href="clientes.html" data-page="clientes"><i class="ti ti-users"></i><span>Clientes</span></a>
+        <a href="cobradores.html" data-page="cobradores"><i class="ti ti-route"></i><span>Cobradores</span></a>
+        <a href="reportes.html" data-page="reportes"><i class="ti ti-chart-bar"></i><span>Reportes</span></a>
+        <a href="configuracion.html" data-page="configuracion"><i class="ti ti-settings"></i><span>Configuración</span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button data-logout><i class="ti ti-logout"></i><span>Cerrar sesión</span></button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="main-header">
+        <div>
+          <h1>Cobradores</h1>
+          <p>Equipo de cobro, zonas asignadas y desempeño del día</p>
+        </div>
+        <div class="user-chip">
+          <span class="dot"></span>
+          <span data-user-chip>Cargando…</span>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <input class="search-input" type="text" id="search-input" placeholder="Buscar por nombre o zona…">
+        <button class="btn-primary" id="btn-nuevo-cobrador" style="width:auto;padding:0 16px">
+          <i class="ti ti-plus" style="vertical-align:-2px;margin-right:4px"></i>Nuevo cobrador
+        </button>
+      </div>
+
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Cobrador</th>
+              <th>Zona</th>
+              <th>Clientes asignados</th>
+              <th>Cobrado hoy</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody id="cobradores-tbody">
+            <tr><td colspan="5" class="skeleton">Cargando cobradores…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal: nuevo cobrador -->
+  <div class="modal-overlay" id="modal-nuevo-cobrador">
+    <div class="modal-box">
+      <h2>Nuevo cobrador</h2>
+      <form id="form-nuevo-cobrador">
+        <label class="field-label" for="ncb-nombre">Nombre completo</label>
+        <input class="field-input" style="margin-bottom:12px" id="ncb-nombre" type="text" placeholder="Nombre y apellido" required>
+
+        <label class="field-label" for="ncb-telefono">Teléfono</label>
+        <input class="field-input" style="margin-bottom:12px" id="ncb-telefono" type="text" placeholder="809-000-0000" required>
+
+        <label class="field-label" for="ncb-zona">Zona asignada</label>
+        <input class="field-input" style="margin-bottom:4px" id="ncb-zona" type="text" placeholder="Zona norte" required>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="btn-cancelar-nuevo-cobrador">Cancelar</button>
+          <button type="submit" class="btn-primary">Guardar cobrador</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+<script src="mock-data.js"></script>
+<script src="gm-api.js"></script>
+<script src="script.js"></script>
+<script src="cobradores.js"></script>
+</body>
+</html>
