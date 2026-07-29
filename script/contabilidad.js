@@ -176,11 +176,12 @@
 
   const amMonto = document.getElementById("am-monto");
   const amCuotas = document.getElementById("am-cuotas");
+  const amFrecuencia = document.getElementById("am-frecuencia");
   const amInteres = document.getElementById("am-interes");
   const amResultado = document.getElementById("amortizacion-resultado");
   const amTbody = document.getElementById("amortizacion-tbody");
 
-  function addDays30(baseDate, days) {
+  function addDaysN(baseDate, days) {
     const d = new Date(baseDate);
     d.setDate(d.getDate() + days);
     return d.toISOString().slice(0, 10);
@@ -190,13 +191,15 @@
     const monto = parseFloat(amMonto.value);
     const n = parseInt(amCuotas.value, 10);
     const tasaAnual = parseFloat(amInteres.value);
+    const diasPeriodo = parseInt(amFrecuencia.value, 10); // 30 = mensual, 15 = quincenal
 
-    if (!monto || !n || tasaAnual < 0) {
+    if (!monto || !n || tasaAnual < 0 || !diasPeriodo) {
       amResultado.style.display = "none";
       return;
     }
 
-    const i = tasaAnual / 100 / 12; // tasa mensual, convención 30/360
+    const periodosPorAnio = 360 / diasPeriodo; // 12 mensual, 24 quincenal
+    const i = tasaAnual / 100 / periodosPorAnio; // tasa por período, convención 30/360
     const cuota = i === 0 ? monto / n : (monto * i) / (1 - Math.pow(1 + i, -n));
 
     let saldo = monto;
@@ -211,7 +214,7 @@
       totalInteres += interes;
       filas.push({
         numero: k,
-        fecha: addDays30(hoy, 30 * k),
+        fecha: addDaysN(hoy, diasPeriodo * k),
         cuota,
         interes,
         capital,
@@ -241,5 +244,6 @@
   }
 
   document.getElementById("btn-calcular-amortizacion").addEventListener("click", calcularAmortizacion);
+  amFrecuencia.addEventListener("change", calcularAmortizacion);
   calcularAmortizacion(); // muestra un ejemplo al cargar, como en el mockup
 })();
