@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PrestaFácil — Clientes</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.44.0/iconfont/tabler-icons.min.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="clientes">
+
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="mark"><i class="ti ti-cash"></i></div>
+        <span>PrestaFácil</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" data-page="dashboard"><i class="ti ti-layout-dashboard"></i><span>Dashboard</span></a>
+        <a href="clientes.html" data-page="clientes"><i class="ti ti-users"></i><span>Clientes</span></a>
+        <a href="cobradores.html" data-page="cobradores"><i class="ti ti-route"></i><span>Cobradores</span></a>
+        <a href="reportes.html" data-page="reportes"><i class="ti ti-chart-bar"></i><span>Reportes</span></a>
+        <a href="configuracion.html" data-page="configuracion"><i class="ti ti-settings"></i><span>Configuración</span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button data-logout><i class="ti ti-logout"></i><span>Cerrar sesión</span></button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="main-header">
+        <div>
+          <h1>Clientes</h1>
+          <p>Cartera de clientes activos e historial de préstamos</p>
+        </div>
+        <div class="user-chip">
+          <span class="dot"></span>
+          <span data-user-chip>Cargando…</span>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <input class="search-input" type="text" id="search-input" placeholder="Buscar por nombre o cédula…">
+        <button class="btn-primary" id="btn-nuevo-cliente" style="width:auto;padding:0 16px">
+          <i class="ti ti-plus" style="vertical-align:-2px;margin-right:4px"></i>Nuevo cliente
+        </button>
+      </div>
+
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Cliente</th>
+              <th>Zona</th>
+              <th>Saldo pendiente</th>
+              <th>Cuota</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody id="clientes-tbody">
+            <tr><td colspan="5" class="skeleton">Cargando clientes…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal: nuevo cliente -->
+  <div class="modal-overlay" id="modal-nuevo-cliente">
+    <div class="modal-box">
+      <h2>Nuevo cliente</h2>
+      <form id="form-nuevo-cliente">
+        <label class="field-label" for="nc-nombre">Nombre completo</label>
+        <input class="field-input" style="margin-bottom:12px" id="nc-nombre" type="text" placeholder="Nombre y apellido" required>
+
+        <label class="field-label" for="nc-cedula">Cédula</label>
+        <input class="field-input" style="margin-bottom:12px" id="nc-cedula" type="text" placeholder="000-0000000-0" required>
+
+        <label class="field-label" for="nc-telefono">Teléfono</label>
+        <input class="field-input" style="margin-bottom:12px" id="nc-telefono" type="text" placeholder="809-000-0000" required>
+
+        <label class="field-label" for="nc-zona">Zona</label>
+        <input class="field-input" style="margin-bottom:4px" id="nc-zona" type="text" placeholder="Zona norte" required>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="btn-cancelar-nuevo">Cancelar</button>
+          <button type="submit" class="btn-primary">Guardar cliente</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+<script src="mock-data.js"></script>
+<script src="gm-api.js"></script>
+<script src="script.js"></script>
+<script src="clientes.js"></script>
+</body>
+</html>
