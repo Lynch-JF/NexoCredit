@@ -239,4 +239,13 @@ button { font-family: var(--font); }
 @media (max-width: 720px) {
   .sidebar { width: 64px; }
   .sidebar-brand span, .sidebar-nav a span, .sidebar-footer button span { display: none; }
+  .main { padding: 20px 16px; }
+}
+
+@media (max-width: 480px) {
+  .main-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
 }
