@@ -53,11 +53,46 @@ const pfApi = (() => {
     return delay(window.PF_MOCK.cobradores);
   }
 
+  function getClientes() {
+    return delay(window.PF_MOCK.clientes);
+  }
+
+  function crearCliente(cliente) {
+    const nuevo = {
+      id: "cl-" + Date.now(),
+      saldoPendiente: 0,
+      estado: "al_dia",
+      ...cliente
+    };
+    window.PF_MOCK.clientes.unshift(nuevo);
+    return delay(nuevo);
+  }
+
+  function getCobradores() {
+    return delay(window.PF_MOCK.cobradores);
+  }
+
+  function crearCobrador(cobrador) {
+    const nuevo = {
+      id: "cb-" + Date.now(),
+      clientes: 0,
+      cobradoHoy: 0,
+      estado: "activo",
+      ...cobrador
+    };
+    window.PF_MOCK.cobradores.unshift(nuevo);
+    return delay(nuevo);
+  }
+
   return {
     login,
     logout,
     getSession,
     getDashboardSummary,
-    getCobradoresActivos
+    getCobradoresActivos,
+    getClientes,
+    crearCliente,
+    getCobradores,
+    crearCobrador
   };
 })();
