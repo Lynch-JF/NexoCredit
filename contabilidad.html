@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Nexo Credito — Contabilidad</title>
+<title>PrestaFácil — Contabilidad</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.44.0/tabler-icons.min.css">
 <link rel="stylesheet" href="/style/base.css">
 <link rel="stylesheet" href="/style/contabilidad.css">
@@ -14,7 +14,7 @@
     <aside class="sidebar">
       <div class="sidebar-brand">
         <div class="mark"><i class="ti ti-cash"></i></div>
-        <span>NexoCredit</span>
+        <span>PrestaFácil</span>
       </div>
       <nav class="sidebar-nav">
         <a href="dashboard.html" data-page="dashboard"><i class="ti ti-layout-dashboard"></i><span>Dashboard</span></a>
@@ -112,6 +112,13 @@
             <div class="am-field">
               <label for="am-cuotas">Cuotas</label>
               <input id="am-cuotas" type="number" min="1" step="1" value="5">
+            </div>
+            <div class="am-field">
+              <label for="am-frecuencia">Frecuencia</label>
+              <select id="am-frecuencia">
+                <option value="30">Mensual</option>
+                <option value="15">Quincenal</option>
+              </select>
             </div>
             <div class="am-field">
               <label for="am-interes">Interés anual</label>
