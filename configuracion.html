@@ -98,36 +98,6 @@
     </main>
   </div>
 
-  <div class="app-shell" id="appShell">
-  <div class="sidebar-overlay" onclick="toggleSidebar(false)"></div>
-  <aside class="sidebar">...</aside>
-
-  <main class="main">
-    <div class="main-header">
-      <div class="main-header-left">
-        <button class="hamburger-btn" id="hamburgerBtn" aria-expanded="false" aria-label="Abrir menú" onclick="toggleSidebar()">
-          <span></span><span></span><span></span>
-        </button>
-        <div>
-          <h1>...</h1>
-          <p>...</p>
-        </div>
-      </div>
-      <div class="user-chip">...</div>
-    </div>
-    ...
-  </main>
-</div>
-
-<script>
-function toggleSidebar(force) {
-  const shell = document.getElementById('appShell');
-  const btn = document.getElementById('hamburgerBtn');
-  const open = typeof force === 'boolean' ? force : !shell.classList.contains('sidebar-open');
-  shell.classList.toggle('sidebar-open', open);
-  btn.setAttribute('aria-expanded', open);
-}
-</script>
 
 <script src="/script/mock-data.js"></script>
 <script src="/script/gm-api.js"></script>
