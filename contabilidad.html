@@ -1,345 +1,214 @@
-/* PrestaFácil — Contabilidad — contabilidad.css
-   Sigue los mismos tokens y patrones de clase usados en reportes.css / clientes.css
-   (card-grid, filter-bar, toolbar, data-table, modal-overlay). Ajusta si tus
-   archivos existentes ya definen estas clases con otros valores. */
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PrestaFácil — Contabilidad</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.44.0/tabler-icons.min.css">
+<link rel="stylesheet" href="/style/base.css">
+<link rel="stylesheet" href="/style/contabilidad.css">
+</head>
+<body data-page="contabilidad">
+  <div class="app-shell" id="appShell">
+    <div class="sidebar-overlay" onclick="toggleSidebar(false)"></div>
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="mark"><i class="ti ti-cash"></i></div>
+        <span>PrestaFácil</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" data-page="dashboard"><i class="ti ti-layout-dashboard"></i><span>Dashboard</span></a>
+        <a href="clientes.html" data-page="clientes"><i class="ti ti-users"></i><span>Clientes</span></a>
+        <a href="cobradores.html" data-page="cobradores"><i class="ti ti-route"></i><span>Cobradores</span></a>
+        <a href="reportes.html" data-page="reportes"><i class="ti ti-chart-bar"></i><span>Reportes</span></a>
+        <a href="contabilidad.html" data-page="contabilidad"><i class="ti ti-report-money"></i><span>Contabilidad</span></a>
+        <a href="configuracion.html" data-page="configuracion"><i class="ti ti-settings"></i><span>Configuración</span></a>
+      </nav>
+      <div class="sidebar-footer">
+        <button data-logout><i class="ti ti-logout"></i><span>Cerrar sesión</span></button>
+      </div>
+    </aside>
+    <main class="main">
+      <div class="main-header">
+        <div class="main-header-left">
+          <button class="hamburger-btn" id="hamburgerBtn" aria-expanded="false" aria-label="Abrir menú" onclick="toggleSidebar()">
+            <span></span><span></span><span></span>
+          </button>
+          <div>
+            <h1>Contabilidad</h1>
+            <p>Libro de cuentas: ganancias por intereses, gastos operativos y balance</p>
+          </div>
+        </div>
+        <div class="user-chip">
+          <span class="dot"></span>
+          <span data-user-chip>Cargando…</span>
+        </div>
+      </div>
 
-/* ---------- Filtros ---------- */
+      <div class="filter-bar">
+        <div class="filter-field">
+          <label for="f-desde">Desde</label>
+          <input type="date" id="f-desde">
+        </div>
+        <div class="filter-field">
+          <label for="f-hasta">Hasta</label>
+          <input type="date" id="f-hasta">
+        </div>
+        <div class="filter-field">
+          <label for="f-tipo">Tipo</label>
+          <select id="f-tipo">
+            <option value="">Todos</option>
+            <option value="ingreso">Ingreso</option>
+            <option value="gasto">Gasto</option>
+          </select>
+        </div>
+        <button class="btn-secondary" id="btn-limpiar-filtros">Limpiar filtros</button>
+      </div>
 
-.filter-bar {
-  display: flex;
-  align-items: flex-end;
-  gap: 16px;
-  flex-wrap: wrap;
-  background: var(--surface);
-  border: 0.5px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 16px;
-  margin-bottom: 20px;
-}
+      <div class="card-grid" id="stat-cards">
+        <div class="stat-card"><p class="label">Ganancias por intereses (período)</p><p class="skeleton">Cargando…</p></div>
+        <div class="stat-card"><p class="label">Gastos operativos (período)</p><p class="skeleton">Cargando…</p></div>
+        <div class="stat-card"><p class="label">Balance neto</p><p class="skeleton">Cargando…</p></div>
+      </div>
 
-.filter-field {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
+      <div class="toolbar">
+        <input class="search-input" type="text" id="search-input" placeholder="Buscar por descripción o categoría…">
+        <button class="btn-primary" id="btn-nuevo-movimiento" style="width:auto;padding:0 16px">
+          <i class="ti ti-plus" style="vertical-align:-2px;margin-right:4px"></i>Nuevo movimiento
+        </button>
+      </div>
 
-.filter-field label {
-  font-size: 12px;
-  color: var(--muted);
-}
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Tipo</th>
+              <th>Categoría</th>
+              <th>Descripción</th>
+              <th>Monto</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="movimientos-tbody">
+            <tr><td colspan="6" class="skeleton">Cargando movimientos…</td></tr>
+          </tbody>
+        </table>
+      </div>
 
-.filter-field input,
-.filter-field select {
-  height: 36px;
-  padding: 0 10px;
-  border: 0.5px solid var(--border);
-  border-radius: var(--radius-sm);
-  font-size: 13px;
-  font-family: var(--font);
-  color: var(--ink);
-  background: var(--surface);
-}
+      <p class="section-title">Simulador de amortización</p>
 
-/* ---------- Tarjetas de resumen ---------- */
+      <section class="amortizacion-panel">
+        <div class="amortizacion-banner">
+          <p>Esta calculadora permite establecer el valor que va a tener la cuota de un crédito, tomando el monto a tomar prestado, la tasa de interés y el plazo.</p>
+        </div>
 
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-bottom: 24px;
-}
+        <div class="amortizacion-body">
+          <div class="amortizacion-form">
+            <div class="am-field">
+              <label for="am-monto">Monto</label>
+              <input id="am-monto" type="number" min="0" step="0.01" value="10000">
+            </div>
+            <div class="am-field">
+              <label for="am-cuotas">Cuotas</label>
+              <input id="am-cuotas" type="number" min="1" step="1" value="5">
+            </div>
+            <div class="am-field">
+              <label for="am-interes">Interés anual</label>
+              <input id="am-interes" type="number" min="0" step="0.01" value="10">
+            </div>
+            <button class="btn-calcular" id="btn-calcular-amortizacion">Calcular</button>
+          </div>
 
-.stat-card {
-  background: var(--surface);
-  border: 0.5px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 16px;
-}
+          <div class="amortizacion-notes">
+            <p><strong>Notas:</strong></p>
+            <ul>
+              <li>Los resultados de esta simulación son aproximados.</li>
+              <li>Se consideran meses de 30 días y años de 360 días.</li>
+              <li>No se contempló período de gracia y el primer vencimiento es a 30 días.</li>
+              <li>En caso de préstamos hipotecarios, la cuota mensual aumentaría producto del seguro de vida y de propiedad, no incluidos en el cálculo.</li>
+            </ul>
+          </div>
+        </div>
 
-.stat-card .label {
-  font-size: 12px;
-  color: var(--muted);
-  margin: 0 0 6px;
-}
+        <div class="amortizacion-resultado" id="amortizacion-resultado" style="display:none">
+          <div class="card-grid">
+            <div class="stat-card"><p class="label">Cuota mensual</p><p class="value" id="am-cuota-valor">-</p></div>
+            <div class="stat-card"><p class="label">Total a pagar</p><p class="value" id="am-total-valor">-</p></div>
+            <div class="stat-card"><p class="label">Total intereses</p><p class="value" id="am-intereses-valor">-</p></div>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>No.</th>
+                  <th>Fecha</th>
+                  <th>Cuota</th>
+                  <th>Interés</th>
+                  <th>Capital</th>
+                  <th>Saldo</th>
+                </tr>
+              </thead>
+              <tbody id="amortizacion-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
 
-.stat-card .value {
-  font-size: 22px;
-  font-weight: 600;
-  margin: 0;
-  color: var(--ink);
-}
+  <!-- Modal: nuevo / editar movimiento -->
+  <div class="modal-overlay" id="modal-movimiento">
+    <div class="modal-box">
+      <h2 id="modal-movimiento-titulo">Nuevo movimiento</h2>
+      <form id="form-movimiento">
+        <input type="hidden" id="mov-id" value="">
 
-.stat-card .value.danger {
-  color: var(--danger);
-}
+        <label class="field-label" for="mov-tipo">Tipo</label>
+        <select class="field-input" style="margin-bottom:12px" id="mov-tipo" required>
+          <option value="ingreso">Ingreso</option>
+          <option value="gasto">Gasto</option>
+        </select>
 
-.stat-card .value.success {
-  color: var(--success);
-}
+        <label class="field-label" for="mov-categoria">Categoría</label>
+        <select class="field-input" style="margin-bottom:12px" id="mov-categoria" required>
+          <option value="intereses">Intereses de préstamos</option>
+          <option value="mora">Recargos por mora</option>
+          <option value="otro-ingreso">Otro ingreso</option>
+          <option value="nomina">Nómina / comisiones de cobradores</option>
+          <option value="operativo">Gastos operativos</option>
+          <option value="otro-gasto">Otro gasto</option>
+        </select>
 
-/* ---------- Toolbar (búsqueda + acción principal) ---------- */
+        <label class="field-label" for="mov-descripcion">Descripción</label>
+        <input class="field-input" style="margin-bottom:12px" id="mov-descripcion" type="text" placeholder="Ej. Intereses cobrados semana 30" required>
 
-.toolbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 16px;
-  flex-wrap: wrap;
-}
+        <label class="field-label" for="mov-monto">Monto</label>
+        <input class="field-input" style="margin-bottom:12px" id="mov-monto" type="number" min="0" step="0.01" required>
 
-.search-input {
-  flex: 1;
-  min-width: 220px;
-  height: 36px;
-  padding: 0 12px;
-  border: 0.5px solid var(--border);
-  border-radius: var(--radius-sm);
-  font-size: 13px;
-  font-family: var(--font);
-}
+        <label class="field-label" for="mov-fecha">Fecha</label>
+        <input class="field-input" style="margin-bottom:4px" id="mov-fecha" type="date" required>
 
-/* ---------- Tabla ---------- */
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="btn-cancelar-movimiento">Cancelar</button>
+          <button type="submit" class="btn-primary">Guardar movimiento</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
-.table-wrap {
-  background: var(--surface);
-  border: 0.5px solid var(--border);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-}
-
-.data-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 13px;
-}
-
-.data-table th {
-  text-align: left;
-  font-weight: 500;
-  color: var(--muted);
-  padding: 10px 14px;
-  border-bottom: 0.5px solid var(--border);
-  background: var(--bg);
-}
-
-.data-table td {
-  padding: 10px 14px;
-  border-bottom: 0.5px solid var(--surface-muted);
-  color: var(--ink);
-}
-
-.data-table tbody tr:last-child td {
-  border-bottom: none;
-}
-
-.data-table tbody tr:hover {
-  background: var(--bg);
-}
-
-/* Etiqueta de tipo (ingreso / gasto) */
-
-.tipo-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 2px 8px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 500;
-}
-
-.tipo-badge.ingreso {
-  background: rgba(15, 110, 86, 0.12);
-  color: var(--success);
-}
-
-.tipo-badge.gasto {
-  background: rgba(153, 60, 29, 0.12);
-  color: var(--danger);
-}
-
-.monto.ingreso { color: var(--success); }
-.monto.gasto { color: var(--danger); }
-
-.row-actions {
-  display: flex;
-  gap: 8px;
-}
-
-.row-actions button {
-  background: none;
-  border: none;
-  color: var(--muted);
-  cursor: pointer;
-  padding: 2px;
-}
-
-.row-actions button:hover {
-  color: var(--ink);
-}
-
-/* ---------- Modal: nuevo / editar movimiento ---------- */
-
-.modal-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(6, 20, 27, 0.5);
-  align-items: center;
-  justify-content: center;
-  z-index: 60;
-}
-
-.modal-overlay.open {
-  display: flex;
-}
-
-.modal-box {
-  background: var(--surface);
-  border-radius: var(--radius-lg);
-  padding: 24px;
-  width: 100%;
-  max-width: 380px;
-}
-
-.modal-box h2 {
-  font-size: 16px;
-  font-weight: 500;
-  margin: 0 0 16px;
-}
-
-.modal-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-top: 8px;
-}
-
-.field-full {
-  grid-column: 1 / -1;
-}
-
-.section-title {
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--ink);
-  margin: 28px 0 12px;
-}
-
-/* ---------- Simulador de amortización ---------- */
-
-.amortizacion-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.amortizacion-banner {
-  background: var(--primary-deep);
-  border-radius: 40px;
-  padding: 18px 40px;
-  text-align: center;
-}
-
-.amortizacion-banner p {
-  color: var(--on-primary);
-  font-size: 14px;
-  margin: 0;
-  line-height: 1.5;
-}
-
-.amortizacion-body {
-  display: grid;
-  grid-template-columns: 320px 1fr;
-  gap: 24px;
-  align-items: start;
-}
-
-.amortizacion-form {
-  background: var(--surface);
-  border: 0.5px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.am-field {
-  background: var(--bg);
-  border-radius: var(--radius-sm);
-  padding: 8px 12px;
-}
-
-.am-field label {
-  display: block;
-  font-size: 11px;
-  color: var(--muted);
-  margin-bottom: 2px;
-}
-
-.am-field input {
-  width: 100%;
-  border: none;
-  background: transparent;
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--ink);
-  font-family: var(--font);
-  padding: 0;
-}
-
-.am-field input:focus {
-  outline: none;
-}
-
-.btn-calcular {
-  height: 44px;
-  border: 1px solid #2CB1AC;
-  background: #35C4BE;
-  color: var(--primary-deep);
-  font-weight: 600;
-  font-size: 14px;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-}
-
-.btn-calcular:hover {
-  background: #2CB1AC;
-}
-
-.amortizacion-notes p {
-  margin: 0 0 8px;
-  font-size: 13px;
-  color: var(--ink-soft);
-}
-
-.amortizacion-notes ul {
-  margin: 0;
-  padding-left: 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.amortizacion-notes li {
-  font-size: 13px;
-  color: #2B5FA8;
-  line-height: 1.5;
-}
-
-.amortizacion-resultado {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-@media (max-width: 900px) {
-  .amortizacion-body { grid-template-columns: 1fr; }
-}
-
-@media (max-width: 720px) {
-  .card-grid { grid-template-columns: 1fr; }
-  .filter-bar { flex-direction: column; align-items: stretch; }
-  .amortizacion-banner { border-radius: var(--radius-lg); padding: 16px 20px; }
-}
+<script>
+  function toggleSidebar(force) {
+    const shell = document.getElementById('appShell');
+    const btn = document.getElementById('hamburgerBtn');
+    const open = typeof force === 'boolean' ? force : !shell.classList.contains('sidebar-open');
+    shell.classList.toggle('sidebar-open', open);
+    btn.setAttribute('aria-expanded', open);
+  }
+</script>
+<script src="/script/mock-data.js"></script>
+<script src="/script/gm-api.js"></script>
+<script src="/script/script.js"></script>
+<script src="/script/contabilidad.js"></script>
+</body>
+</html>
