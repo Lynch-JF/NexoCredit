@@ -3,18 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PrestaFácil — Configuración</title>
+<title>Nexo Credito — Configuración</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.44.0/iconfont/tabler-icons.min.css">
 <link rel="stylesheet" href="/style/base.css">
 <link rel="stylesheet" href="/style/configuracion.css">
 </head>
 <body data-page="configuracion">
 
-  <div class="app-shell">
+  <div class="app-shell" id="appShell">
+    <div class="sidebar-overlay" onclick="toggleSidebar(false)"></div>
     <aside class="sidebar">
       <div class="sidebar-brand">
         <div class="mark"><i class="ti ti-cash"></i></div>
-        <span>PrestaFácil</span>
+        <span>Nexo Credito</span>
       </div>
 
       <nav class="sidebar-nav">
@@ -32,9 +33,14 @@
 
     <main class="main">
       <div class="main-header">
-        <div>
-          <h1>Configuración</h1>
-          <p>Datos del negocio y valores por defecto para nuevos préstamos</p>
+        <div class="main-header-left">
+          <button class="hamburger-btn" id="hamburgerBtn" aria-expanded="false" aria-label="Abrir menú" onclick="toggleSidebar()">
+            <span></span><span></span><span></span>
+          </button>
+          <div>
+            <h1>Configuración</h1>
+            <p>Datos del negocio y valores por defecto para nuevos préstamos</p>
+          </div>
         </div>
         <div class="user-chip">
           <span class="dot"></span>
@@ -98,7 +104,15 @@
     </main>
   </div>
 
-
+<script>
+  function toggleSidebar(force) {
+    const shell = document.getElementById('appShell');
+    const btn = document.getElementById('hamburgerBtn');
+    const open = typeof force === 'boolean' ? force : !shell.classList.contains('sidebar-open');
+    shell.classList.toggle('sidebar-open', open);
+    btn.setAttribute('aria-expanded', open);
+  }
+</script>
 <script src="/script/mock-data.js"></script>
 <script src="/script/gm-api.js"></script>
 <script src="/script/script.js"></script>
