@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Nexo Creditos — Iniciar sesión</title>
+<title>Nexo Credito — Iniciar sesión</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.44.0/iconfont/tabler-icons.min.css">
-<link rel="stylesheet" href="/style/base.css">
+<link rel="stylesheet" href="base.css">
 <style>
   body { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 16px; }
   .login-card { width: 100%; max-width: 340px; background: var(--surface); border-radius: var(--radius-lg); padding: 32px 28px; }
@@ -19,7 +19,7 @@
 
   <div class="login-card">
     <div class="mark"><i class="ti ti-cash"></i></div>
-    <h1>Nexo Creditos</h1>
+    <h1>Nexo Credito</h1>
     <p class="sub">Ingresa a tu cuenta</p>
 
     <form id="login-form">
@@ -60,16 +60,22 @@
     btn.disabled = true;
     btn.textContent = "Ingresando…";
 
-    const session = await pfApi.login(usuario, password);
+    try {
+      const session = await pfApi.login(usuario, password);
 
-    if (!session) {
-      errorEl.textContent = "Usuario o contraseña incorrectos.";
+      if (!session) {
+        errorEl.textContent = "Usuario o contraseña incorrectos.";
+        return;
+      }
+
+      window.location.href = "dashboard.html";
+    } catch (err) {
+      console.error("Error al iniciar sesión:", err);
+      errorEl.textContent = "Ocurrió un error inesperado. Revisa la consola.";
+    } finally {
       btn.disabled = false;
       btn.textContent = "Iniciar sesión";
-      return;
     }
-
-    window.location.href = "dashboard.html";
   });
 
   // Si ya hay sesión activa, saltar directo al dashboard
