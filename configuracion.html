@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PrestaFácil — Configuración</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.44.0/iconfont/tabler-icons.min.css">
+<link rel="stylesheet" href="base.css">
+<link rel="stylesheet" href="configuracion.css">
+</head>
+<body data-page="configuracion">
+
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="mark"><i class="ti ti-cash"></i></div>
+        <span>PrestaFácil</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" data-page="dashboard"><i class="ti ti-layout-dashboard"></i><span>Dashboard</span></a>
+        <a href="clientes.html" data-page="clientes"><i class="ti ti-users"></i><span>Clientes</span></a>
+        <a href="cobradores.html" data-page="cobradores"><i class="ti ti-route"></i><span>Cobradores</span></a>
+        <a href="reportes.html" data-page="reportes"><i class="ti ti-chart-bar"></i><span>Reportes</span></a>
+        <a href="configuracion.html" data-page="configuracion"><i class="ti ti-settings"></i><span>Configuración</span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button data-logout><i class="ti ti-logout"></i><span>Cerrar sesión</span></button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="main-header">
+        <div>
+          <h1>Configuración</h1>
+          <p>Datos del negocio y valores por defecto para nuevos préstamos</p>
+        </div>
+        <div class="user-chip">
+          <span class="dot"></span>
+          <span data-user-chip>Cargando…</span>
+        </div>
+      </div>
+
+      <form id="form-configuracion">
+        <div class="settings-section">
+          <h2>Datos del negocio</h2>
+          <p class="section-desc">Se muestran en reportes y comprobantes.</p>
+          <div class="settings-grid">
+            <div>
+              <label class="field-label" for="cfg-nombre">Nombre del negocio</label>
+              <input class="field-input" id="cfg-nombre" type="text">
+            </div>
+            <div>
+              <label class="field-label" for="cfg-telefono">Teléfono</label>
+              <input class="field-input" id="cfg-telefono" type="text">
+            </div>
+            <div>
+              <label class="field-label" for="cfg-moneda">Moneda</label>
+              <select id="cfg-moneda">
+                <option value="DOP">Peso dominicano (DOP)</option>
+                <option value="USD">Dólar estadounidense (USD)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h2>Valores por defecto de préstamos</h2>
+          <p class="section-desc">Aplican como sugerencia al crear un préstamo nuevo; se pueden ajustar caso por caso.</p>
+          <div class="settings-grid">
+            <div>
+              <label class="field-label" for="cfg-tasa">Tasa de interés por defecto (%)</label>
+              <input class="field-input" id="cfg-tasa" type="number" min="0" step="0.5">
+            </div>
+            <div>
+              <label class="field-label" for="cfg-gracia">Días de gracia antes de mora</label>
+              <input class="field-input" id="cfg-gracia" type="number" min="0" step="1">
+            </div>
+            <div class="field-full">
+              <label class="field-label" for="cfg-frecuencia">Frecuencia de cuota por defecto</label>
+              <select id="cfg-frecuencia">
+                <option value="semanal">Semanal</option>
+                <option value="quincenal">Quincenal</option>
+                <option value="mensual">Mensual</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-actions">
+          <button type="submit" class="btn-primary">Guardar cambios</button>
+          <span class="save-confirmation" id="save-confirmation">
+            <i class="ti ti-check"></i> Cambios guardados
+          </span>
+        </div>
+      </form>
+    </main>
+  </div>
+
+<script src="mock-data.js"></script>
+<script src="gm-api.js"></script>
+<script src="script.js"></script>
+<script src="configuracion.js"></script>
+</body>
+</html>
