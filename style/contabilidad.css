@@ -278,7 +278,8 @@
   margin-bottom: 2px;
 }
 
-.am-field input {
+.am-field input,
+.am-field select {
   width: 100%;
   border: none;
   background: transparent;
@@ -289,7 +290,8 @@
   padding: 0;
 }
 
-.am-field input:focus {
+.am-field input:focus,
+.am-field select:focus {
   outline: none;
 }
 
