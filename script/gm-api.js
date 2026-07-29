@@ -102,6 +102,15 @@ const pfApi = (() => {
     return delay(lista);
   }
 
+  function getConfiguracion() {
+    return delay(window.PF_MOCK.configuracion);
+  }
+
+  function guardarConfiguracion(config) {
+    window.PF_MOCK.configuracion = { ...window.PF_MOCK.configuracion, ...config };
+    return delay(window.PF_MOCK.configuracion);
+  }
+
   return {
     login,
     logout,
@@ -112,6 +121,8 @@ const pfApi = (() => {
     crearCliente,
     getCobradores,
     crearCobrador,
-    getPagos
+    getPagos,
+    getConfiguracion,
+    guardarConfiguracion
   };
 })();
