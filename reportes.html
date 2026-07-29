@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PrestaFácil — Reportes</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.44.0/iconfont/tabler-icons.min.css">
+<link rel="stylesheet" href="base.css">
+<link rel="stylesheet" href="reportes.css">
+</head>
+<body data-page="reportes">
+
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="mark"><i class="ti ti-cash"></i></div>
+        <span>PrestaFácil</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" data-page="dashboard"><i class="ti ti-layout-dashboard"></i><span>Dashboard</span></a>
+        <a href="clientes.html" data-page="clientes"><i class="ti ti-users"></i><span>Clientes</span></a>
+        <a href="cobradores.html" data-page="cobradores"><i class="ti ti-route"></i><span>Cobradores</span></a>
+        <a href="reportes.html" data-page="reportes"><i class="ti ti-chart-bar"></i><span>Reportes</span></a>
+        <a href="configuracion.html" data-page="configuracion"><i class="ti ti-settings"></i><span>Configuración</span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button data-logout><i class="ti ti-logout"></i><span>Cerrar sesión</span></button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="main-header">
+        <div>
+          <h1>Reportes</h1>
+          <p>Cobros registrados por período, cobrador y método de pago</p>
+        </div>
+        <div class="user-chip">
+          <span class="dot"></span>
+          <span data-user-chip>Cargando…</span>
+        </div>
+      </div>
+
+      <div class="filter-bar">
+        <div class="filter-field">
+          <label for="f-desde">Desde</label>
+          <input type="date" id="f-desde">
+        </div>
+        <div class="filter-field">
+          <label for="f-hasta">Hasta</label>
+          <input type="date" id="f-hasta">
+        </div>
+        <div class="filter-field">
+          <label for="f-cobrador">Cobrador</label>
+          <select id="f-cobrador">
+            <option value="">Todos</option>
+          </select>
+        </div>
+        <button class="btn-secondary" id="btn-limpiar-filtros">Limpiar filtros</button>
+      </div>
+
+      <div class="card-grid" id="stat-cards">
+        <div class="stat-card"><p class="label">Total cobrado</p><p class="skeleton">Cargando…</p></div>
+        <div class="stat-card"><p class="label">Cantidad de pagos</p><p class="skeleton">Cargando…</p></div>
+        <div class="stat-card"><p class="label">Promedio por pago</p><p class="skeleton">Cargando…</p></div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Cliente</th>
+              <th>Cobrador</th>
+              <th>Método</th>
+              <th>Monto</th>
+            </tr>
+          </thead>
+          <tbody id="pagos-tbody">
+            <tr><td colspan="5" class="skeleton">Cargando pagos…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+<script src="mock-data.js"></script>
+<script src="gm-api.js"></script>
+<script src="script.js"></script>
+<script src="reportes.js"></script>
+</body>
+</html>
