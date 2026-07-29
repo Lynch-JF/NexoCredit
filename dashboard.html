@@ -9,14 +9,13 @@
 <link rel="stylesheet" href="/style/dashboard.css">
 </head>
 <body data-page="dashboard">
-
-  <div class="app-shell">
+  <div class="app-shell" id="appShell">
+    <div class="sidebar-overlay" onclick="toggleSidebar(false)"></div>
     <aside class="sidebar">
       <div class="sidebar-brand">
         <div class="mark"><i class="ti ti-cash"></i></div>
         <span>NexoCredit</span>
       </div>
-
       <nav class="sidebar-nav">
         <a href="dashboard.html" data-page="dashboard"><i class="ti ti-layout-dashboard"></i><span>Dashboard</span></a>
         <a href="clientes.html" data-page="clientes"><i class="ti ti-users"></i><span>Clientes</span></a>
@@ -24,30 +23,31 @@
         <a href="reportes.html" data-page="reportes"><i class="ti ti-chart-bar"></i><span>Reportes</span></a>
         <a href="configuracion.html" data-page="configuracion"><i class="ti ti-settings"></i><span>Configuración</span></a>
       </nav>
-
       <div class="sidebar-footer">
         <button data-logout><i class="ti ti-logout"></i><span>Cerrar sesión</span></button>
       </div>
     </aside>
-
     <main class="main">
       <div class="main-header">
-        <div>
-          <h1>Resumen del negocio</h1>
-          <p>Estado general de la cartera al día de hoy</p>
+        <div class="main-header-left">
+          <button class="hamburger-btn" id="hamburgerBtn" aria-expanded="false" aria-label="Abrir menú" onclick="toggleSidebar()">
+            <span></span><span></span><span></span>
+          </button>
+          <div>
+            <h1>Resumen del negocio</h1>
+            <p>Estado general de la cartera al día de hoy</p>
+          </div>
         </div>
         <div class="user-chip">
           <span class="dot"></span>
           <span data-user-chip>Cargando…</span>
         </div>
       </div>
-
       <div class="card-grid" id="stat-cards">
         <div class="stat-card"><p class="label">Cartera activa</p><p class="skeleton">Cargando…</p></div>
         <div class="stat-card"><p class="label">Cobrado hoy</p><p class="skeleton">Cargando…</p></div>
         <div class="stat-card"><p class="label">En mora</p><p class="skeleton">Cargando…</p></div>
       </div>
-
       <p class="section-title">Cobradores activos</p>
       <div class="list" id="cobradores-list">
         <p class="skeleton">Cargando cobradores…</p>
@@ -55,10 +55,15 @@
     </main>
   </div>
 
-
-
-  
-
+<script>
+  function toggleSidebar(force) {
+    const shell = document.getElementById('appShell');
+    const btn = document.getElementById('hamburgerBtn');
+    const open = typeof force === 'boolean' ? force : !shell.classList.contains('sidebar-open');
+    shell.classList.toggle('sidebar-open', open);
+    btn.setAttribute('aria-expanded', open);
+  }
+</script>
 <script src="/script/mock-data.js"></script>
 <script src="/script/gm-api.js"></script>
 <script src="/script/script.js"></script>
@@ -66,14 +71,11 @@
   (async () => {
     const session = pfRequireSession();
     if (!session) return;
-
     pfMountShell(session);
-
     const [resumen, cobradores] = await Promise.all([
       pfApi.getDashboardSummary(),
       pfApi.getCobradoresActivos()
     ]);
-
     const cardsEl = document.getElementById("stat-cards");
     cardsEl.innerHTML = `
       <div class="stat-card">
@@ -89,7 +91,6 @@
         <p class="value danger">${pfFormatCurrency(resumen.enMora)}</p>
       </div>
     `;
-
     const listEl = document.getElementById("cobradores-list");
     listEl.innerHTML = cobradores.map((c) => `
       <div class="list-row">
@@ -98,9 +99,6 @@
       </div>
     `).join("");
   })();
-
-
-  
 </script>
 </body>
 </html>
