@@ -84,6 +84,24 @@ const pfApi = (() => {
     return delay(nuevo);
   }
 
+  function getPagos(filtros = {}) {
+    let lista = window.PF_MOCK.pagos.slice();
+
+    if (filtros.desde) {
+      lista = lista.filter((p) => p.fecha >= filtros.desde);
+    }
+    if (filtros.hasta) {
+      lista = lista.filter((p) => p.fecha <= filtros.hasta);
+    }
+    if (filtros.cobradorId) {
+      lista = lista.filter((p) => p.cobradorId === filtros.cobradorId);
+    }
+
+    lista.sort((a, b) => (a.fecha < b.fecha ? 1 : -1));
+
+    return delay(lista);
+  }
+
   return {
     login,
     logout,
@@ -93,6 +111,7 @@ const pfApi = (() => {
     getClientes,
     crearCliente,
     getCobradores,
-    crearCobrador
+    crearCobrador,
+    getPagos
   };
 })();
