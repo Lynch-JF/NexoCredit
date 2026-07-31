@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PrestaFácil — Detalle de cliente</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.44.0/tabler-icons.min.css">
+<link rel="stylesheet" href="/style/base.css">
+<link rel="stylesheet" href="/style/cliente-detalle.css">
+</head>
+<body data-page="clientes">
+  <div class="app-shell" id="appShell">
+    <div class="sidebar-overlay" onclick="toggleSidebar(false)"></div>
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="mark"><i class="ti ti-cash"></i></div>
+        <span>PrestaFácil</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" data-page="dashboard"><i class="ti ti-layout-dashboard"></i><span>Dashboard</span></a>
+        <a href="clientes.html" data-page="clientes"><i class="ti ti-users"></i><span>Clientes</span></a>
+        <a href="cobradores.html" data-page="cobradores"><i class="ti ti-route"></i><span>Cobradores</span></a>
+        <a href="reportes.html" data-page="reportes"><i class="ti ti-chart-bar"></i><span>Reportes</span></a>
+        <a href="contabilidad.html" data-page="contabilidad"><i class="ti ti-report-money"></i><span>Contabilidad</span></a>
+        <a href="configuracion.html" data-page="configuracion"><i class="ti ti-settings"></i><span>Configuración</span></a>
+      </nav>
+      <div class="sidebar-footer">
+        <button data-logout><i class="ti ti-logout"></i><span>Cerrar sesión</span></button>
+      </div>
+    </aside>
+    <main class="main">
+      <div class="main-header">
+        <div class="main-header-left">
+          <button class="hamburger-btn" id="hamburgerBtn" aria-expanded="false" aria-label="Abrir menú" onclick="toggleSidebar()">
+            <span></span><span></span><span></span>
+          </button>
+          <div>
+            <a class="back-link" href="clientes.html"><i class="ti ti-arrow-left"></i> Volver a clientes</a>
+            <h1 id="cliente-nombre">Cargando…</h1>
+            <p id="cliente-subtitulo" class="skeleton">Cargando datos del cliente…</p>
+          </div>
+        </div>
+        <div class="user-chip">
+          <span class="dot"></span>
+          <span data-user-chip>Cargando…</span>
+        </div>
+      </div>
+
+      <div id="cliente-contenido">
+        <!-- ---------- Info personal ---------- -->
+        <div class="detail-card">
+          <div class="detail-card-header">
+            <h2>Información personal</h2>
+            <button class="btn-secondary" id="btn-editar-cliente"><i class="ti ti-pencil" style="vertical-align:-2px;margin-right:4px"></i>Editar</button>
+          </div>
+          <div class="detail-grid" id="cliente-info-grid">
+            <div><span class="detail-label">Cédula</span><span class="detail-value" id="info-cedula">-</span></div>
+            <div><span class="detail-label">Teléfono</span><span class="detail-value" id="info-telefono">-</span></div>
+            <div><span class="detail-label">Zona</span><span class="detail-value" id="info-zona">-</span></div>
+            <div><span class="detail-label">Cobrador asignado</span><span class="detail-value" id="info-cobrador">-</span></div>
+            <div><span class="detail-label">Cliente desde</span><span class="detail-value" id="info-desde">-</span></div>
+            <div><span class="detail-label">Estado</span><span class="detail-value" id="info-estado">-</span></div>
+          </div>
+        </div>
+
+        <!-- ---------- Préstamo activo ---------- -->
+        <div class="detail-card">
+          <div class="detail-card-header">
+            <h2>Préstamo activo</h2>
+            <button class="btn-primary" id="btn-registrar-pago" style="width:auto;padding:0 16px">
+              <i class="ti ti-cash-banknote" style="vertical-align:-2px;margin-right:4px"></i>Registrar pago
+            </button>
+          </div>
+          <div class="card-grid" id="prestamo-cards">
+            <div class="stat-card"><p class="label">Monto original</p><p class="value" id="prestamo-monto">-</p></div>
+            <div class="stat-card"><p class="label">Saldo pendiente</p><p class="value" id="prestamo-saldo">-</p></div>
+            <div class="stat-card"><p class="label">Cuota</p><p class="value" id="prestamo-cuota">-</p></div>
+            <div class="stat-card"><p class="label">Próximo vencimiento</p><p class="value" id="prestamo-proximo">-</p></div>
+          </div>
+          <p class="detail-note" id="prestamo-meta">-</p>
+        </div>
+
+        <!-- ---------- Tabla de amortización ---------- -->
+        <div class="detail-card">
+          <div class="detail-card-header">
+            <h2>Tabla de amortización</h2>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>No.</th>
+                  <th>Fecha</th>
+                  <th>Cuota</th>
+                  <th>Interés</th>
+                  <th>Capital</th>
+                  <th>Saldo</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody id="amortizacion-tbody">
+                <tr><td colspan="7" class="skeleton">Cargando…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ---------- Historial de pagos ---------- -->
+        <div class="detail-card">
+          <div class="detail-card-header">
+            <h2>Historial de pagos</h2>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Monto</th>
+                  <th>Método</th>
+                  <th>Cobrador</th>
+                  <th>Nota</th>
+                </tr>
+              </thead>
+              <tbody id="pagos-tbody">
+                <tr><td colspan="5" class="skeleton">Cargando…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal: registrar pago -->
+  <div class="modal-overlay" id="modal-registrar-pago">
+    <div class="modal-box">
+      <h2>Registrar pago</h2>
+      <form id="form-registrar-pago">
+        <label class="field-label" for="pago-monto">Monto</label>
+        <input class="field-input" style="margin-bottom:12px" id="pago-monto" type="number" min="0" step="0.01" required>
+
+        <label class="field-label" for="pago-fecha">Fecha</label>
+        <input class="field-input" style="margin-bottom:12px" id="pago-fecha" type="date" required>
+
+        <label class="field-label" for="pago-metodo">Método</label>
+        <select class="field-input" style="margin-bottom:12px" id="pago-metodo" required>
+          <option value="efectivo">Efectivo</option>
+          <option value="transferencia">Transferencia</option>
+          <option value="otro">Otro</option>
+        </select>
+
+        <label class="field-label" for="pago-cobrador">Cobrador</label>
+        <input class="field-input" style="margin-bottom:12px" id="pago-cobrador" type="text" placeholder="Nombre del cobrador">
+
+        <label class="field-label" for="pago-nota">Nota (opcional)</label>
+        <input class="field-input" style="margin-bottom:4px" id="pago-nota" type="text" placeholder="Ej. Pago cuota #3">
+
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="btn-cancelar-pago">Cancelar</button>
+          <button type="submit" class="btn-primary">Guardar pago</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: editar cliente -->
+  <div class="modal-overlay" id="modal-editar-cliente">
+    <div class="modal-box">
+      <h2>Editar cliente</h2>
+      <form id="form-editar-cliente">
+        <label class="field-label" for="edit-nombre">Nombre completo</label>
+        <input class="field-input" style="margin-bottom:12px" id="edit-nombre" type="text" required>
+
+        <label class="field-label" for="edit-cedula">Cédula</label>
+        <input class="field-input" style="margin-bottom:12px" id="edit-cedula" type="text" required>
+
+        <label class="field-label" for="edit-telefono">Teléfono</label>
+        <input class="field-input" style="margin-bottom:12px" id="edit-telefono" type="text" required>
+
+        <label class="field-label" for="edit-zona">Zona</label>
+        <input class="field-input" style="margin-bottom:4px" id="edit-zona" type="text" required>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="btn-cancelar-editar">Cancelar</button>
+          <button type="submit" class="btn-primary">Guardar cambios</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+<script>
+  function toggleSidebar(force) {
+    const shell = document.getElementById('appShell');
+    const btn = document.getElementById('hamburgerBtn');
+    const open = typeof force === 'boolean' ? force : !shell.classList.contains('sidebar-open');
+    shell.classList.toggle('sidebar-open', open);
+    btn.setAttribute('aria-expanded', open);
+  }
+</script>
+<script src="/script/mock-data.js"></script>
+<script src="/script/gm-api.js"></script>
+<script src="/script/script.js"></script>
+<script src="/script/cliente-detalle.js"></script>
+</body>
+</html>
